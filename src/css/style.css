@@ -36,7 +36,7 @@ ul {
 
 }
 
-.progress-bar {
+#progress-bar {
 	width: 0%;
 	height: 100%;
 	background: #F19EDC;
@@ -75,11 +75,11 @@ ul {
 	border: 2px solid #F19EDC;
 }
 
-.add-task {
+#add-task {
 	grid-column: span 2;
 	display: flex;
 	align-items: center;
-	justify-content: left;
+	justify-content: flex-start;
 	margin-left: 15px;
 }
 
