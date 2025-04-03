@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	const taskList = document.getElementById("task-list");
 	const progressBar = document.getElementById("progress-bar");
 
-	// Update progress bar
+	// Update progress bar. I asked AI how to update a bar based on how many items are there/complete.
 	function updateProgress() {
 		const tasks = document.querySelectorAll("#task-list li input[type='checkbox']");
 		const completedTasks = document.querySelectorAll("#task-list li input[type='checkbox']:checked");
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		progressBar.style.width = progress + "%";
 	}
 
-	// Add new task
+	// Add new task. I asked AI how to mmake a interactive text box.
 	function addTask() {
 		const taskText = taskInput.value.trim();
 		if (taskText !== "") {
@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			taskList.appendChild(newTask);
 			taskInput.value = ""; // Clear input field after adding
 
-			// Attach event listeners
 			newTask.querySelector("input").addEventListener("change", updateProgress);
 			newTask.querySelector(".delete-btn").addEventListener("click", function () {
 				newTask.remove();
