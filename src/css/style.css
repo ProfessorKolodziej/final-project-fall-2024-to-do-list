@@ -1,12 +1,41 @@
+:root {
+	--primary-light: #F5D3ED;
+	--primary: #F19EDC;
+	--primary-dark: #E26BC4;
+	--bg-main: #E7BFDD;
+}
+
+.theme-blue {
+	--primary-light: #D5E5F6;
+	--primary: #376498;
+	--primary-dark: #063B7A;
+	--bg-main: #7E9FC5;
+}
+
+.theme-tan {
+	--primary-light: #D8D2C1;
+	--primary: #534728;
+	--primary-dark: #292009;
+	--bg-main: #BBB29C;
+}
+
+.theme-green {
+	--primary-light: #BED3BB;
+	--primary: #37752D;
+	--primary-dark: #113F09;
+	--bg-main: #86A181;
+}
+
+
 body {
-	background-color: #E7BFDD;
+	background-color: var(--bg-main);
 }
 
 h2 {
 	font-size: 32px;
 	color: #080D38;
 	font-family: "Patrick Hand SC";
-	text-align: center;
+	text-align: left;
 	margin: 10px;
 }
 
@@ -14,56 +43,56 @@ ul {
 	font-family: "Patrick Hand";
 	color: #080D38;
 	font-size: 20px;
+	padding-left: 0;
 }
 
 .container {
 	background: white;
-	padding: 10px;
 	border-radius: 25px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	text-align: left;
 	position: relative;
 	max-width: 658px;
+	padding: 15px;
 }
 
 .progress-container {
 	height: 30px;
-	background: #F5D3ED;
+	background: var(--primary-light);
 	border-radius: 50px;
 	overflow: hidden;
 	margin-bottom: 10px;
 	position: relative;
-
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #progress-bar {
 	width: 0%;
 	height: 100%;
-	background: #F19EDC;
+	background: var(--primary);
 	transition: width 0.5s ease-in-out;
 }
 
 #task-list {
 	list-style: none;
-	padding: 0;
-	margin: 0;
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
+	margin: 0;
 }
 
 #task-list li {
 	display: flex;
 	align-items: center;
 	justify-content: left;
-	margin-right: 10px;
-	margin-left: 10px;
+	margin-right: 15px;
+	margin-left: 15px;
 }
 
 #task-list li input {
 	appearance: none;
 	width: 30px;
 	height: 30px;
-	border: 2px solid #F19EDC;
+	border: 2px solid var(--primary);
 	border-radius: 50%;
 	cursor: pointer;
 	margin-right: 10px;
@@ -71,33 +100,32 @@ ul {
 }
 
 #task-list li input:checked {
-	background-color: #F19EDC;
-	border: 2px solid #F19EDC;
+	background-color: var(--primary);
+	border: 2px solid var(--primary);
 }
 
 #add-task {
 	grid-column: span 2;
 	display: flex;
 	align-items: center;
-	justify-content: flex-start;
-	margin-left: 15px;
+	margin-left: 19px;
+	margin-right: 15px;
+	margin-top: 3px;
 }
 
 #new-task {
 	font-family: "Patrick Hand";
 	font-size: 20px;
 	border: none;
-	border-bottom: 2px solid #F19EDC;
+	border-bottom: 2px solid var(--primary);
 	background: transparent;
 	padding: 5px;
-	font-size: 20px;
 	outline: none;
-	color: #3e2764;
-	text-align: left;
+	color: #080D38;
 }
 
 #add-btn {
-	background: #F19EDC;
+	background: var(--primary);
 	border: none;
 	color: white;
 	font-size: 20px;
@@ -112,7 +140,7 @@ ul {
 }
 
 #add-btn:hover {
-	background: #E26BC4;
+	background: var(--primary-dark);
 }
 
 .delete-btn {
@@ -127,6 +155,47 @@ ul {
 
 .delete-btn:hover {
 	color: darkgray;
+}
+
+.theme-switcher {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin: 15px 0;
+	max-width: 658px;
+}
+
+.theme-btn {
+	padding: 5px 15px;
+	border: none;
+	border-radius: 15px;
+	cursor: pointer;
+	font-family: "Patrick Hand";
+	transition: transform 0.3s;
+}
+
+.theme-btn:hover {
+	transform: scale(1.05);
+}
+
+.theme-btn[data-theme="default"] {
+	background-color: #F19EDC;
+	color: white;
+}
+
+.theme-btn[data-theme="blue"] {
+	background-color: #376498;
+	color: white;
+}
+
+.theme-btn[data-theme="green"] {
+	background-color: #37752D;
+	color: white;
+}
+
+.theme-btn[data-theme="tan"] {
+	background-color: #534728;
+	color: white;
 }
 
 @media (min-width: 700px) {

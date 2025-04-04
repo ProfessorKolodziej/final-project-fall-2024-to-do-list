@@ -19,17 +19,24 @@
 		<div id="progress-bar"></div>
 	</div>
 
-	<div class="container">
-		<div class="header"></div>
-		<div class="todo-box">
+	<main class="container">
+		<section class="todo-box">
 			<h2>To-do List</h2>
 			<ul id="task-list"></ul>
-			<div class="add-task">
+			<div id="add-task">
 				<button id="add-btn">+</button>
 				<input type="text" id="new-task" placeholder="Add New Task">
 			</div>
-		</div>
+		</section>
+	</main>
+
+	<div class="theme-switcher">
+		<button class="theme-btn" data-theme="default">Pink</button>
+		<button class="theme-btn" data-theme="blue">Blue</button>
+		<button class="theme-btn" data-theme="green">Green</button>
+		<button class="theme-btn" data-theme="tan">Tan</button>
 	</div>
+
 	<script src="js/scripts.js"></script>
 </body>
 

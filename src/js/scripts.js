@@ -11,12 +11,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	const taskInput = document.getElementById("new-task");
 	const taskList = document.getElementById("task-list");
 	const progressBar = document.getElementById("progress-bar");
+	const themeButtons = document.querySelectorAll('.theme-btn')
 
 	// Update progress bar. I asked AI how to update a bar based on how many items are there/complete.
 	function updateProgress() {
 		const tasks = document.querySelectorAll("#task-list li input[type='checkbox']");
 		const completedTasks = document.querySelectorAll("#task-list li input[type='checkbox']:checked");
-
 		let progress = tasks.length > 0 ? (completedTasks.length / tasks.length) * 100 : 0;
 		progressBar.style.width = progress + "%";
 	}
@@ -43,6 +43,17 @@ document.addEventListener("DOMContentLoaded", function () {
 			updateProgress(); // Update progress after adding a task
 		}
 	}
+
+	themeButtons.forEach(button => {
+		button.addEventListener('click', function () {
+			document.body.classList.remove('theme-blue', 'theme-green', 'theme-tan');
+			const theme = this.getAttribute('data-theme');
+			if (theme !== 'default') {
+				document.body.classList.add('theme-' + theme);
+			}
+		}
+		)
+	})
 
 	// Click + to add task
 	addButton.addEventListener("click", addTask);
