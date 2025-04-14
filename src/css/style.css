@@ -198,6 +198,17 @@ ul {
 	color: white;
 }
 
+#lottie-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto 10px;
+}
+
+#lottie-player {
+	max-width: 100%;
+}
+
 @media (min-width: 700px) {
 	#task-list {
 		grid-template-columns: 1fr;

@@ -5,13 +5,39 @@
 // - Do not use onclick - use addEventListener instead
 // - Run npm run test regularly to check autograding
 // - You'll need to link this file to your HTML :)
+// After adding a task, add this line
 
 document.addEventListener("DOMContentLoaded", function () {
+	console.log("DOM fully loaded!");
+
 	const addButton = document.getElementById("add-btn");
 	const taskInput = document.getElementById("new-task");
 	const taskList = document.getElementById("task-list");
 	const progressBar = document.getElementById("progress-bar");
-	const themeButtons = document.querySelectorAll('.theme-btn')
+	const themeButtons = document.querySelectorAll('.theme-btn');
+
+	let lottieAnimation;
+	let totalFrames = 0;
+
+	const lottieContainer = document.getElementById('lottie-container');
+	if (lottieContainer && typeof lottie !== 'undefined') {
+		lottieAnimation = lottie.loadAnimation({
+			container: lottieContainer,
+			renderer: 'svg',
+			loop: false,
+			autoplay: false,
+			path: 'animations/flower.json',
+			rendererSetting: {
+				progressiveLoad: true,
+				preserveAspectRatio: 'xMidYMid meet'
+			}
+		});
+
+		lottieAnimation.addEventListener('DOMLoaded', () => {
+			totalFrames = lottieAnimation.totalFrames;
+			updateProgress();
+		});
+	}
 
 	// Update progress bar. I asked AI how to update a bar based on how many items are there/complete.
 	function updateProgress() {
@@ -19,10 +45,52 @@ document.addEventListener("DOMContentLoaded", function () {
 		const completedTasks = document.querySelectorAll("#task-list li input[type='checkbox']:checked");
 		let progress = tasks.length > 0 ? (completedTasks.length / tasks.length) * 100 : 0;
 		progressBar.style.width = progress + "%";
+
+		if (lottieAnimation && totalFrames > 0) {
+
+			const targetFrame = Math.min(Math.floor((progress / 100) * totalFrames), totalFrames - 1);
+
+			if (!lottieAnimation.isPaused) {
+				lottieAnimation.pause();
+			}
+
+			let obj = { frame: lottieAnimation.currentFrame };
+			const duration = 0.8;
+			if (typeof gsap !== 'undefined') {
+				gsap.to(obj, {
+					frame: targetFrame,
+					duration: duration,
+					ease: "power2.out",
+					onUpdate: function () {
+						lottieAnimation.goToAndStop(obj.frame, true);
+					}
+				});
+			} else {
+				const startFrame = lottieAnimation.currentFrame;
+				const frameDistance = targetFrame - startFrame;
+				const startTime = performance.now();
+				const animDuration = duration * 1000;
+
+				function step(timestamp) {
+					const elapsed = timestamp - startTime;
+					const progress = Math.min(elapsed / animDuration, 1);
+					const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+					const currentFrame = startFrame + frameDistance * easeProgress;
+					lottieAnimation.goToAndStop(currentFrame, true);
+
+					if (progress < 1) {
+						requestAnimationFrame(step);
+					}
+				}
+				requestAnimationFrame(step);
+			}
+		}
 	}
 
 	// Add new task. I asked AI how to mmake a interactive text box.
 	function addTask() {
+		console.log("Adding task");
 		const taskText = taskInput.value.trim();
 		if (taskText !== "") {
 			const newTask = document.createElement("li");
@@ -41,6 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			});
 
 			updateProgress(); // Update progress after adding a task
+			console.log("Task added:", taskText);
 		}
 	}
 
@@ -51,9 +120,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (theme !== 'default') {
 				document.body.classList.add('theme-' + theme);
 			}
-		}
-		)
-	})
+		});
+	});
 
 	// Click + to add task
 	addButton.addEventListener("click", addTask);
@@ -64,4 +132,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			addTask();
 		}
 	});
+
+	// Closing the DOMContentLoaded event listener
 });
+
+
+
