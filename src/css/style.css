@@ -203,6 +203,8 @@ ul {
 	justify-content: center;
 	align-items: center;
 	margin: 0 auto 10px;
+	width: 200px;
+	height: 200px;
 }
 
 #lottie-player {
