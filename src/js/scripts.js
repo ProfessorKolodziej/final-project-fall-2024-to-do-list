@@ -19,24 +19,39 @@ document.addEventListener("DOMContentLoaded", function () {
 	let lottieAnimation;
 	let totalFrames = 0;
 
-	const lottieContainer = document.getElementById('lottie-container');
-	if (lottieContainer && typeof lottie !== 'undefined') {
-		lottieAnimation = lottie.loadAnimation({
-			container: lottieContainer,
-			renderer: 'svg',
-			loop: false,
-			autoplay: false,
-			path: 'animations/flower.json',
-			rendererSetting: {
-				progressiveLoad: true,
-				preserveAspectRatio: 'xMidYMid meet'
-			}
-		});
+	const themeAnimations = {
+		'default': 'animations/pink.flower.json',
+		'blue': 'animations/blue.flower.json',
+		'green': 'animations/green.flower.json',
+		'tan': 'animations/tan.flower.json'
+	};
 
-		lottieAnimation.addEventListener('DOMLoaded', () => {
-			totalFrames = lottieAnimation.totalFrames;
-			updateProgress();
-		});
+	loadThemeAnimation('default');
+
+	function loadThemeAnimation(theme) {
+		const lottieContainer = document.getElementById('lottie-container');
+		if (lottieContainer && typeof lottie !== 'undefined') {
+			if (lottieAnimation) {
+				lottieAnimation.destroy();
+			}
+
+			lottieAnimation = lottie.loadAnimation({
+				container: lottieContainer,
+				renderer: 'svg',
+				loop: false,
+				autoplay: false,
+				path: themeAnimations[theme],
+				rendererSetting: {
+					progressiveLoad: true,
+					preserveAspectRatio: 'xMidyMid meet'
+				}
+			});
+
+			lottieAnimation.addEventListener('DOMLoaded', () => {
+				totalFrames = lottieAnimation.totalFrames;
+				updateProgress();
+			});
+		}
 	}
 
 	// Update progress bar. I asked AI how to update a bar based on how many items are there/complete.
@@ -120,6 +135,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (theme !== 'default') {
 				document.body.classList.add('theme-' + theme);
 			}
+
+			loadThemeAnimation(theme);
 		});
 	});
 
@@ -132,9 +149,5 @@ document.addEventListener("DOMContentLoaded", function () {
 			addTask();
 		}
 	});
-
-	// Closing the DOMContentLoaded event listener
 });
-
-
 

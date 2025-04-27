@@ -26,7 +26,6 @@
 	--bg-main: #86A181;
 }
 
-
 body {
 	background-color: var(--bg-main);
 }
@@ -34,13 +33,13 @@ body {
 h2 {
 	font-size: 32px;
 	color: #080D38;
-	font-family: "Patrick Hand SC";
+	font-family: "Patrick Hand SC", "Patrick Hand", sans-serif;
 	text-align: left;
 	margin: 10px;
 }
 
 ul {
-	font-family: "Patrick Hand";
+	font-family: "Patrick Hand", sand-serif;
 	color: #080D38;
 	font-size: 20px;
 	padding-left: 0;
@@ -54,6 +53,7 @@ ul {
 	position: relative;
 	max-width: 658px;
 	padding: 15px;
+	margin: 15px;
 }
 
 .progress-container {
@@ -61,7 +61,7 @@ ul {
 	background: var(--primary-light);
 	border-radius: 50px;
 	overflow: hidden;
-	margin-bottom: 10px;
+	margin: 15px;
 	position: relative;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -161,8 +161,10 @@ ul {
 	display: flex;
 	justify-content: center;
 	gap: 10px;
-	margin: 15px 0;
 	max-width: 658px;
+	width: 100%;
+	position: fixed;
+	bottom: 15px;
 }
 
 .theme-btn {
@@ -202,17 +204,40 @@ ul {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin: 0 auto 10px;
-	width: 200px;
-	height: 200px;
+	margin: 0 auto;
+	width: 350px;
+	aspect-ratio: 1 / 1;
 }
 
-#lottie-player {
-	max-width: 100%;
-}
+@media (min-width: 950px) {
 
-@media (min-width: 700px) {
-	#task-list {
-		grid-template-columns: 1fr;
+	.content-wrapper {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		width: 100%;
+		margin: 0;
+	}
+
+	.container {
+		flex: 0 0 658px;
+		margin: 0;
+	}
+
+	#lottie-container {
+		width: 600px;
+		margin: 0;
+		align-self: center;
+	}
+
+	.progress-container {
+		width: 100%;
+		margin: 0 0 20px 0;
+	}
+
+	.theme-switcher {
+		position: absolute;
+		bottom: 15px;
+		margin-top: 15px;
 	}
 }
