@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Update your description here" />
+	<title>To-Do List</title>
+	<link href="css/style.css" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Patrick+Hand+SC&display=swap"
+		rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+</head>
+
+<body>
+	<div class="progress-container">
+		<div id="progress-bar"></div>
+	</div>
+
+	<div class="content-wrapper">
+		<main class="container">
+			<section class="todo-box">
+				<h2>To-do List</h2>
+				<ul id="task-list"></ul>
+				<div id="add-task">
+					<button id="add-btn">+</button>
+					<input type="text" id="new-task" placeholder="Add New Task">
+				</div>
+			</section>
+		</main>
+
+		<div id="lottie-container"></div>
+	</div>
+
+
+	<div class="theme-switcher">
+		<button class="theme-btn" data-theme="default">Pink</button>
+		<button class="theme-btn" data-theme="blue">Blue</button>
+		<button class="theme-btn" data-theme="green">Green</button>
+		<button class="theme-btn" data-theme="tan">Tan</button>
+	</div>
+
+	<script src="js/scripts.js"></script>
+</body>
+
+</html>
