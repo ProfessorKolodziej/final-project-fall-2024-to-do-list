@@ -5,7 +5,6 @@
 // - Do not use onclick - use addEventListener instead
 // - Run npm run test regularly to check autograding
 // - You'll need to link this file to your HTML :)
-// After adding a task, add this line
 
 document.addEventListener("DOMContentLoaded", function () {
 	console.log("DOM fully loaded!");
@@ -26,7 +25,15 @@ document.addEventListener("DOMContentLoaded", function () {
 		'tan': 'animations/tan.flower.json'
 	};
 
-	loadThemeAnimation('default');
+	// Load saved theme or use default/pink
+	const savedTheme = localStorage.getItem('selectedTheme') || 'default';
+
+	// Apply saved theme
+	if (savedTheme !== 'default') {
+		document.body.classList.add('theme-' + savedTheme);
+	}
+
+	loadThemeAnimation(savedTheme);
 
 	function loadThemeAnimation(theme) {
 		const lottieContainer = document.getElementById('lottie-container');
@@ -54,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	}
 
-	// Update progress bar. I asked AI how to update a bar based on how many items are there/complete.
+	// Update progress bar
 	function updateProgress() {
 		const tasks = document.querySelectorAll("#task-list li input[type='checkbox']");
 		const completedTasks = document.querySelectorAll("#task-list li input[type='checkbox']:checked");
@@ -62,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		progressBar.style.width = progress + "%";
 
 		if (lottieAnimation && totalFrames > 0) {
-
 			const targetFrame = Math.min(Math.floor((progress / 100) * totalFrames), totalFrames - 1);
 
 			if (!lottieAnimation.isPaused) {
@@ -103,27 +109,83 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	}
 
-	// Add new task. I asked AI how to mmake a interactive text box.
+	// Save tasks to local storage
+	function saveTasks() {
+		console.log("Saving tasks to local storage");
+		const tasks = [];
+		document.querySelectorAll("#task-list li").forEach(taskItem => {
+			const taskText = taskItem.querySelector("span").textContent;
+			const isCompleted = taskItem.querySelector("input[type='checkbox']").checked;
+			tasks.push({ text: taskText, completed: isCompleted });
+		});
+
+		console.log("Tasks to save:", tasks);
+		localStorage.setItem('todoTasks', JSON.stringify(tasks));
+	}
+
+	// Load tasks from local storage
+	function loadTasks() {
+		console.log("Loading tasks from local storage");
+		const savedTasks = localStorage.getItem('todoTasks');
+		console.log("Retrieved saved tasks:", savedTasks);
+
+		if (savedTasks) {
+			try {
+				const tasks = JSON.parse(savedTasks);
+				console.log("Parsed tasks:", tasks);
+
+				tasks.forEach(task => {
+					createTaskElement(task.text, task.completed);
+				});
+
+				updateProgress();
+			} catch (error) {
+				console.error("Error parsing saved tasks:", error);
+			}
+		}
+	}
+
+	// Create a task
+	function createTaskElement(text, completed = false) {
+		const newTask = document.createElement("li");
+		newTask.innerHTML = `
+			<input type="checkbox" ${completed ? 'checked' : ''}>
+			<span>${text}</span>
+			<button class="delete-btn">-</button>
+		`;
+		taskList.appendChild(newTask);
+
+		const checkbox = newTask.querySelector("input[type='checkbox']");
+		const deleteBtn = newTask.querySelector(".delete-btn");
+
+		if (checkbox) {
+			checkbox.addEventListener("change", function () {
+				updateProgress();
+				saveTasks();
+			});
+		}
+
+		if (deleteBtn) {
+			deleteBtn.addEventListener("click", function () {
+				newTask.remove();
+				updateProgress();
+				saveTasks();
+			});
+		}
+
+		return newTask;
+	}
+
+	// Add new task
 	function addTask() {
 		console.log("Adding task");
 		const taskText = taskInput.value.trim();
 		if (taskText !== "") {
-			const newTask = document.createElement("li");
-			newTask.innerHTML = `
-				<input type="checkbox">
-				<span>${taskText}</span>
-				<button class="delete-btn">-</button>
-			`;
-			taskList.appendChild(newTask);
+			const newTask = createTaskElement(taskText);
 			taskInput.value = ""; // Clear input field after adding
 
-			newTask.querySelector("input").addEventListener("change", updateProgress);
-			newTask.querySelector(".delete-btn").addEventListener("click", function () {
-				newTask.remove();
-				updateProgress(); // Update progress after removing a task
-			});
-
-			updateProgress(); // Update progress after adding a task
+			updateProgress();
+			saveTasks(); // Save tasks after adding a new one
 			console.log("Task added:", taskText);
 		}
 	}
@@ -136,6 +198,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.body.classList.add('theme-' + theme);
 			}
 
+			// Save theme to local storage
+			localStorage.setItem('selectedTheme', theme);
 			loadThemeAnimation(theme);
 		});
 	});
@@ -149,5 +213,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			addTask();
 		}
 	});
-});
 
+	// Load saved tasks when page loads
+	loadTasks();
+});
